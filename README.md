@@ -8,7 +8,6 @@
 | nickname              | string | null: false |
 | email                 | string | null: false ,unique: true|
 | encrypted_password    | string | null: false |
-| password_confirmation | string | null: false |
 | last_name             | string | null: false |
 | first_name            | string | null: false |
 | last_name_kana        | string | null: false |
@@ -36,7 +35,7 @@
 
 ### Association
 
-- has_one :item_orders
+- has_one :item_order
 - belongs_to :user
 
 ## item_orders テーブル
@@ -58,7 +57,7 @@
 | Column        | Type        | Options     |
 | -------       | ----------  | ----------- |
 | postal_code   | string      | null: false |
-| prefecture_id | string      | null: false |
+| prefecture_id | integer     | null: false |
 | city          | string      | null: false |
 | addresses     | string      | null: false |
 | building      | string      |             |
@@ -67,4 +66,4 @@
 
 ### Association
 
-- belongs_to :item_orders
+- belongs_to :item_order
