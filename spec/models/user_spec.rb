@@ -81,11 +81,10 @@ RSpec.describe User, type: :model do
         another_user.valid?
         expect(another_user.errors.full_messages).to include('Email has already been taken')
       end
-      it 'passwordは＠がないと登録できない' do
-        @user.password = 'aaaaaaaa'
-        @user.password_confirmation = 'aaaaaaaa'
+      it 'emailは＠がないと登録できない' do
+        @user.email = 'aaaaaaaa'
         @user.valid?
-        expect(@user.errors.full_messages).to include('Password is invalid')
+        expect(@user.errors.full_messages).to include('Email is invalid')
       end
       it 'passwordが5文字以下では登録できない' do
         @user.password = 'a0000'
@@ -93,12 +92,33 @@ RSpec.describe User, type: :model do
         @user.valid?
         expect(@user.errors.full_messages).to include('Password is too short (minimum is 6 characters)')
       end
-      it 'passwordが英数混合でないと登録できない' do
+      it 'passwordが数字だけだと登録できない' do
         @user.password = '0000000'
         @user.password_confirmation = '0000000'
         @user.valid?
         expect(@user.errors.full_messages).to include('Password is invalid')
       end
+      it 'passwordが英字だけだと登録できない' do
+        @user.password = 'aaaaaaa'
+        @user.password_confirmation = 'aaaaaaa'
+        @user.valid?
+        expect(@user.errors.full_messages).to include('Password is invalid')
+      end
+      it 'passwordが全角だと登録できない' do
+        @user.password = 'あああ0000'
+        @user.password_confirmation = 'あああ0000'
+        @user.valid?
+        expect(@user.errors.full_messages).to include('Password is invalid')
+      end
+      it 'birth_dateが空では登録できない' do
+        @user.birth_date = ''
+        @user.valid?
+        expect(@user.errors.full_messages).to include("Birth date can't be blank")
+      end
+
+
+
+
     end
   end
 end

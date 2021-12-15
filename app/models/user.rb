@@ -11,7 +11,7 @@ class User < ApplicationRecord
   validates :first_name_kana, presence: true
   validates :birth_date, presence: true
 
-  VALID_NAME_REGEX = /\A[ぁ-んァ-ン一-龥]/.freeze
+  VALID_NAME_REGEX = /\A[ぁ-んァ-ン一-龥々ー]+\z/.freeze
   validates :last_name, :first_name, format: { with: VALID_NAME_REGEX }
 
   VALID_NAMEKANA_REGEX = /\A[ァ-ヶー－]+\z/.freeze
