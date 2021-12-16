@@ -5,7 +5,7 @@ RSpec.describe Item, type: :model do
     @item = FactoryBot.build(:item)
   end
 
-  describe 'ユーザー新規登録' do
+  describe '商品出品' do
     context '新規登録できるとき' do
       # ユーザー新規登録についてのテストコードを記述します
       it 'nameとinfo、category_id,sales_status_id,shipping_fee_status_id,prefecture_id,scheduled_delivery_id,priceが存在すれば登録できる' do
@@ -68,6 +68,80 @@ RSpec.describe Item, type: :model do
         @item.valid?
         expect(@item.errors.full_messages).to include('Price is not a number')
       end
+      it 'categoryに「---」が選択されている場合は登録できない' do
+        @item.category_id = '1'
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Category can't be blank")
+      end
+      it 'sales_statusに「---」が選択されている場合は登録できない' do
+        @item.sales_status_id = '1'
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Sales status can't be blank")
+      end
+      it 'shipping_fee_statusに「---」が選択されている場合は登録できない' do
+        @item.shipping_fee_status_id = '1'
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Shipping fee status can't be blank")
+      end
+      it 'prefectureに「---」が選択されている場合は登録できない' do
+        @item.prefecture_id = '1'
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Prefecture can't be blank")
+      end
+      it 'scheduled_deliveryに「---」が選択されている場合は登録できない' do
+        @item.scheduled_delivery_id = '1'
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Scheduled delivery can't be blank")
+      end
+      it '画像が空の場合は登録できない' do
+        @item.image = nil
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Image can't be blank")
+      end
+      it 'userが紐づいてないと登録できない' do
+        @item.user = nil
+        @item.valid?
+        expect(@item.errors.full_messages).to include("User must exist")
+      end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     end
   end
 end
