@@ -1,6 +1,5 @@
 class ItemsController < ApplicationController
-  before_action :move_to_rogin, except: [:index, :create, :show]
-
+  before_action :authenticate_user!, except: [:index, :show]
   def index
     @items = Item.all.order('created_at DESC')
   end
@@ -29,7 +28,4 @@ class ItemsController < ApplicationController
                                  :scheduled_delivery_id, :price).merge(user_id: current_user.id)
   end
 
-  def move_to_rogin
-    redirect_to new_user_session_path unless user_signed_in?
-  end
 end
