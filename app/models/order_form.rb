@@ -9,8 +9,7 @@ class OrderForm
     validates :phone_number, numericality: {in: 10..11}
     validates :user_id
     validates :item_id
-    # validates :token
-    # validates :price, numericality: { only_integer: true, greater_than_or_equal_to: 300, less_than_or_equal_to: 9_999_999 }
+    validates :token
   end
  
   def save
