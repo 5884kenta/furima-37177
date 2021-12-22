@@ -2,7 +2,10 @@ require 'rails_helper'
 
 RSpec.describe OrderForm, type: :model do
   before do
-    @order = FactoryBot.build(:order_form)
+    @user =  FactoryBot.create(:user)
+    @item =  FactoryBot.create(:item)
+    @order = FactoryBot.build(:order_form,user_id: @user.id, item_id: @item.id)
+    sleep(1)
   end
 
   describe '商品購入' do
@@ -57,11 +60,22 @@ RSpec.describe OrderForm, type: :model do
         @order.valid?
         expect(@order.errors.full_messages).to include('Postal code is invalid. Include hyphen(-)')
       end
-      it 'phone_numberが10桁以上11桁以内の半角数値以外だと保存できないこと' do
-        @order.phone_number = '090-1234-5678'
+      it 'phone_numberに半角数字以外が含まれている場合は購入できないこと' do
+        @order.phone_number = '090-1234'
         @order.valid?
-        expect(@order.errors.full_messages).to include('Phone number is not a number')
+        expect(@order.errors.full_messages).to include('Phone number is invalid')
       end
+      it 'phone_numberが12桁以上では購入できないこと' do
+        @order.phone_number = '123456789012'
+        @order.valid?
+        expect(@order.errors.full_messages).to include('Phone number is invalid')
+      end
+      it 'phone_numberが9桁以下では購入できないこと' do
+        @order.phone_number = '123456789'
+        @order.valid?
+        expect(@order.errors.full_messages).to include('Phone number is invalid')
+      end
+
       it 'tokenが空では登録できないこと' do
         @order.token = nil
         @order.valid?
