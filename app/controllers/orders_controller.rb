@@ -1,12 +1,12 @@
 class OrdersController < ApplicationController
-
+  before_action :set_item_id
+  before_action :authenticate_user!
+  before_action :contributor_confirmation, only: :index
   def index
-    @item = Item.find(params[:item_id])
     @order_form = OrderForm.new
   end
 
   def create
-    @item = Item.find(params[:item_id])
     @order_form = OrderForm.new(order_params)
     if @order_form.valid?
       pay_order
@@ -32,6 +32,13 @@ class OrdersController < ApplicationController
     )
   end
 
-  
+  def set_item_id
+    @item = Item.find(params[:item_id])
+  end  
+
+  def contributor_confirmation
+    redirect_to root_path if @item.item_order != nil 
+    redirect_to root_path if @item.user_id == current_user.id 
+  end
 
 end
