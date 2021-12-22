@@ -11,7 +11,7 @@ RSpec.describe OrderForm, type: :model do
         expect(@order).to be_valid
       end
       it '建物名が無くても登録できる' do
-        @order.building =""
+        @order.building = ''
         expect(@order).to be_valid
       end
     end
@@ -55,19 +55,18 @@ RSpec.describe OrderForm, type: :model do
       it 'postal_codeが000-0000ハイフンがないと保存できないこと' do
         @order.postal_code = '1234567'
         @order.valid?
-        expect(@order.errors.full_messages).to include("Postal code is invalid. Include hyphen(-)")
+        expect(@order.errors.full_messages).to include('Postal code is invalid. Include hyphen(-)')
       end
       it 'phone_numberが10桁以上11桁以内の半角数値以外だと保存できないこと' do
         @order.phone_number = '090-1234-5678'
         @order.valid?
-        expect(@order.errors.full_messages).to include("Phone number is not a number")
+        expect(@order.errors.full_messages).to include('Phone number is not a number')
       end
-      it "tokenが空では登録できないこと" do
+      it 'tokenが空では登録できないこと' do
         @order.token = nil
         @order.valid?
         expect(@order.errors.full_messages).to include("Token can't be blank")
       end
     end
   end
-
 end
